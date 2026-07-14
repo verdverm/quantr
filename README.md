@@ -57,6 +57,10 @@ uv run --project evals lm_eval ls -h
 
 ## References
 
+### papers
+
+- [Evaluating Quantized Large Language Models - ICML '24](https://arxiv.org/abs/2402.18158)
+
 ### llm-compressor
 
 - https://github.com/vllm-project/llm-compressor
@@ -65,6 +69,8 @@ uv run --project evals lm_eval ls -h
 ### lm-evaluation-harness
 
 - https://github.com/EleutherAI/lm-evaluation-harness
+
+consider adding: https://github.com/modelscope/evalscope
 
 ### Other
 
