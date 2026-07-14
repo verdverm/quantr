@@ -13,5 +13,5 @@ dependencies = [
 
 [tool.uv]
 environments = ["sys_platform == 'linux'"]
-no-binary-package = ["causal-conv1d", "flash-attn"]
-no-build-isolation-package = ["causal-conv1d", "flash-attn"]
+# no-binary-package = ["causal-conv1d", "flash-attn"]
+# no-build-isolation-package = ["causal-conv1d", "flash-attn"]
