@@ -1,0 +1,17 @@
+[project]
+name = "quantr.quant"
+version = "0.1.0"
+description = "llmcompressor setup"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "llmcompressor>=0.12",
+    "torchvision",
+    "causal-conv1d==1.6.2.post1",
+    "flash-attn==2.8.3.post1",
+]
+
+[tool.uv]
+environments = ["sys_platform == 'linux'"]
+no-binary-package = ["causal-conv1d", "flash-attn"]
+no-build-isolation-package = ["causal-conv1d", "flash-attn"]

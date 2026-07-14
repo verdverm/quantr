@@ -1,0 +1,6 @@
+.venv/
+/models/
+/results/
+/extern/
+/tasks.txt
+/old/

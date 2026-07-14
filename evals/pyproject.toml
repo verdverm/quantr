@@ -1,0 +1,20 @@
+[project]
+name = "quantr.evals"
+version = "0.1.0"
+description = "lm-eval setup"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "transformers>=4.45",
+    "accelerate>=1.0",
+    "datasets>=2.20",
+    "torch>=2.11",
+    "tqdm>=4.66",
+    "pyyaml>=6.0",
+    "compressed-tensors>=0.17",
+    "vllm==0.25",
+    "lm-eval>=0.4.5",
+]
+
+[tool.uv]
+environments = ["sys_platform == 'linux'"]
