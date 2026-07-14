@@ -11,6 +11,10 @@ TASKS := \
 	gsm8k \
 	validate \
 
+EXTERN := \
+	baseline \
+	bonsai \
+
 .PHONY: FORCE
 FORCE:;
 
@@ -38,6 +42,6 @@ qwen.evals.$(1).$(2).$(3): FORCE
 	uv run --project evals evals/qwen36-27b.sh $(1)-$(2)-$(3)
 endef
 $(foreach algo,$(ALGOS),$(foreach scheme,$(SCHEMES),$(foreach task,$(TASKS),$(eval $(call QWEN_EVALS_RULE,$(algo),$(scheme),$(task))))))
-$(foreach task,$(TASKS),$(eval $(call QWEN_EVALS_RULE,test,baseline,$(task))))
+$(foreach extern,$(EXTERN),$(foreach task,$(TASKS),$(eval $(call QWEN_EVALS_RULE,test,$(extern),$(task)))))
 QWEN_EVALS_TARGETS := $(foreach algo,$(ALGOS),$(foreach scheme,$(SCHEMES),$(foreach task,$(TASKS),qwen.evals.$(algo).$(scheme).$(task)))) $(foreach task,$(TASKS),qwen.evals.test.baseline.$(task))
 qwen.evals: $(QWEN_EVALS_TARGETS)

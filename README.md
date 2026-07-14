@@ -18,7 +18,7 @@ Tools:
 # clone to gpu machine
 git clone https://github.com/verdverm/quantr && cd quantr
 
-# install deps (compiles flash-attn, takes a while...)
+# install deps
 make uv.sync
 ```
 
@@ -76,3 +76,10 @@ CUE:
 Evals:
 
 - https://huggingface.co/docs/transformers/en/perplexity
+
+NVFP4:
+
+- https://research.nvidia.com/labs/nemotron/files/NVFP4-QAD-Report.pdf
+- https://research.colfax-intl.com/cutlass-tutorial-nvfp4-blockscaled-gemm-on-nvidia-rtx-pro-blackwell-gpus-sm12x/
+- https://humansand.ai/blog/nvfp4-rl
+- https://hanlab.mit.edu/blog/svdquant-nvfp4 | https://news.ycombinator.com/item?id=43134907

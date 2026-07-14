@@ -26,7 +26,7 @@ evals: [string]~(slug,_): {
 
 	model: "vllm"
 	model_args: {
-		pretrained:             string | *"./models/\(strings.ToLower(slug))"
+		pretrained:             string | *"./models/\(strings.ToLower("\(config.model)-\(_algo)-\(_scheme)"))"
 		gpu_memory_utilization: string | *"0.8"
 		max_length:             int | *4096
 	}
@@ -42,6 +42,14 @@ evals: {
 		"\(strings.ToLower(config.model))-test-baseline-\(task)": {
 			model_args: {
 				pretrained: "Qwen/\(config.model)"
+			}
+			_tasks:  tasks
+		}
+	}
+	for task, tasks in config.tasks {
+		"\(strings.ToLower(config.model))-test-bonsai-\(task)": {
+			model_args: {
+				pretrained: "prism-ml/Bonsai-27B-AWQ-4bit"
 			}
 			_tasks:  tasks
 		}
