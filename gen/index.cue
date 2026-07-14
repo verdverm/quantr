@@ -22,6 +22,7 @@ config: {
 evals: [string]~(slug,_): {
 	_algo:   string
 	_scheme: string
+	_tasks: [...string]
 
 	model: "vllm"
 	model_args: {
@@ -29,7 +30,7 @@ evals: [string]~(slug,_): {
 		gpu_memory_utilization: string | *"0.8"
 		max_length:             int | *4096
 	}
-	"tasks":    config.tasks.wikitext
+	tasks:      _tasks
 	limit:      32
 	batch_size: 2
 
@@ -37,16 +38,20 @@ evals: [string]~(slug,_): {
 }
 
 evals: {
-	"\(strings.ToLower(config.model))-test-baseline": {
-		model_args: {
-			pretrained: "Qwen/\(config.model)"
+	for task, tasks in config.tasks {
+		"\(strings.ToLower(config.model))-test-baseline-\(task)": {
+			model_args: {
+				pretrained: "Qwen/\(config.model)"
+			}
+			_tasks:  tasks
 		}
 	}
-	for _, algo in config.algos for _, scheme in config.schemes {
-		let slug = "\(config.model)-\(algo)-\(scheme)"
+	for _, algo in config.algos for _, scheme in config.schemes for task, tasks in config.tasks {
+		let slug = "\(config.model)-\(algo)-\(scheme)-\(task)"
 		(strings.ToLower(slug)): {
 			_algo:   algo
 			_scheme: scheme
+			_tasks:  tasks
 		}
 	}
 }

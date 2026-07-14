@@ -6,6 +6,11 @@ SCHEMES := \
 	nvfp4 \
 	nvfp4a16 \
 
+TASKS := \
+	wikitext \
+	gsm8k \
+	validate \
+
 .PHONY: FORCE
 FORCE:;
 
@@ -29,9 +34,10 @@ QWEN_QUANT_TARGETS := $(foreach algo,$(ALGOS),$(foreach scheme,$(SCHEMES),qwen.q
 qwen.quant: $(QWEN_QUANT_TARGETS)
 
 define QWEN_EVALS_RULE
-qwen.evals.$(1).$(2): FORCE
-	uv run --project evals evals/qwen36-27b.sh $(1) $(shell echo $(2) | sed 's/a16/16/')
+qwen.evals.$(1).$(2).$(3): FORCE
+	uv run --project evals evals/qwen36-27b.sh $(1)-$(2)-$(3)
 endef
-$(foreach algo,$(ALGOS),$(foreach scheme,$(SCHEMES),$(eval $(call QWEN_EVALS_RULE,$(algo),$(scheme)))))
-QWEN_EVALS_TARGETS := $(foreach algo,$(ALGOS),$(foreach scheme,$(SCHEMES),qwen.evals.$(algo).$(scheme)))
+$(foreach algo,$(ALGOS),$(foreach scheme,$(SCHEMES),$(foreach task,$(TASKS),$(eval $(call QWEN_EVALS_RULE,$(algo),$(scheme),$(task))))))
+$(foreach task,$(TASKS),$(eval $(call QWEN_EVALS_RULE,test,baseline,$(task))))
+QWEN_EVALS_TARGETS := $(foreach algo,$(ALGOS),$(foreach scheme,$(SCHEMES),$(foreach task,$(TASKS),qwen.evals.$(algo).$(scheme).$(task)))) $(foreach task,$(TASKS),qwen.evals.test.baseline.$(task))
 qwen.evals: $(QWEN_EVALS_TARGETS)

@@ -1,11 +1,18 @@
 # Quantr
 
-Scripts for quantizing and evaluating models.
+Utilities for quantizing and evaluating open weight models.
+
+- llm-compressor & lm-evaluation-harness
+- config driven, grid generation, simple commands
 
 
 ## Setup
 
-make sure `nvcc` is in PATH
+Tools:
+
+- `uv` for python
+- make sure `nvcc` is in PATH
+- `cue` for recipe and grid generation (some pregen'd)
 
 ```bash
 # clone to gpu machine
@@ -15,6 +22,7 @@ git clone https://github.com/verdverm/quantr && cd quantr
 make uv.sync
 ```
 
+
 ## Using
 
 ```bash
@@ -22,15 +30,17 @@ make uv.sync
 make qwen.quant
 make qwen.evals
 
-# Run specific combo (qwen.<stage>.<algo>.<scheme>)
-make qwen.quant.simp.nvfp4
-make qwen.evals.gptq.nvfp4a16
+# Run specific combo (qwen.<stage>.<algo>.<scheme>.<task>)
+make qwen.quant.simp.nvfp4.wikitext
+make qwen.evals.gptq.nvfp4a16.gsm8k
 ```
+
 
 ### Change points
 
 - Makefile has 2 lists
 - gen/index.cue (`make qwen.gen`)
+- quant/*.py
 
 ```bash
 # List lm-eval tasks and related
@@ -38,24 +48,31 @@ uv run --project evals lm_eval ls tasks > tasks.txt
 uv run --project evals lm_eval ls -h
 ```
 
+
 ## Notes
 
 1. You almost certainly want to use data driven quantization.
 2. You almost certainly want to use at least the Sequential pipeline.
 
 
-## Compiling certain pip packages
-
-1. `uv pip install causal-conv1d --no-build-isolation`
-2. `UV_CONCURRENT_BUILDS=1 MAX_JOBS=1 uv pip install flash-attn --no-build-isolation`
-3. `pip install --force-reinstall --no-binary vllm vllm --no-build-isolation`
-
 ## References
 
-https://github.com/vllm-project/llm-compressor
+### llm-compressor
 
-llm-compressor videos
-
+- https://github.com/vllm-project/llm-compressor
 - https://www.youtube.com/watch?v=NxdtRqQaPg0
 
-https://huggingface.co/docs/transformers/en/perplexity
+### lm-evaluation-harness
+
+- https://github.com/EleutherAI/lm-evaluation-harness
+
+### Other
+
+CUE:
+
+- https://cuelang.org
+- https://cuetorials.org
+
+Evals:
+
+- https://huggingface.co/docs/transformers/en/perplexity
